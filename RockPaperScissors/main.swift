@@ -1,21 +1,33 @@
+enum RockPaperScissors: Int {
+    case rock = 1
+    case paper = 2
+    case scissors = 3
+}
+
 private func playGame() {
     
     while true {
-        let randomNumber = (1...3).shuffled()
+        guard let randomNumber = RockPaperScissors(rawValue: Int.random(in: 1...3)) else { return }
         print("가위(1), 바위(2), 보(3)! <종료: 0> :", terminator: " ")
         
-        guard let userInput = readLine().flatMap({ Int($0) }) else { return }
+        guard let userInput = readLine().flatMap({ Int($0) }), userInput > 0 && userInput <= 3 else {
+            print("잘못된 입력입니다")
+            continue
+        }
+        
+        let userNumber = RockPaperScissors(rawValue: userInput)
         
         if userInput == 0 {
             break;
-        } else if randomNumber[0] == userInput {
+        } else if randomNumber == userNumber {
             print("비겼습니다!")
-        } else if randomNumber[0] == 1 && userInput == 2 || randomNumber[0] == 2 && userInput == 3 || randomNumber[0] == 3 && userInput == 1 {
+        } else if (randomNumber == .rock && userNumber == .paper) ||
+                    (randomNumber == .paper && userNumber == .scissors) ||
+                    (randomNumber == .scissors && userNumber == .rock) {
             print("이겼습니다!")
-        } else if randomNumber[0] == 1 && userInput == 3 || randomNumber[0] == 2 && userInput == 1 || randomNumber[0] == 3 && userInput == 2 {
+        }
+        else {
             print("졌습니다!")
-        } else {
-            print("잘못된 입력입니다.")
         }
         
     }
