@@ -1,14 +1,3 @@
-enum RockPaperScissors: Int {
-    case rock = 1
-    case paper = 2
-    case scissors = 3
-}
-
-enum TurnCheck: String {
-    case user = "사용자"
-    case computer = "컴퓨터"
-}
-
 private func playGame() {
     
     while true {
