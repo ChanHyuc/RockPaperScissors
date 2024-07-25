@@ -10,18 +10,10 @@ private func isValidUserNumber() -> GameElement? {
     return userNumber
 }
 
-private func playGame() {
+private func excuteRockPaperScissors(randomNumber: GameElement, userNumber: GameElement) -> PlayerTurn {
+    var currentTurn: PlayerTurn = .user
     
     while true {
-        var currentTurn: PlayerTurn
-        guard let randomNumber = GameElement(rawValue: Int.random(in: 1...3)) else { return }
-        print("가위(1), 바위(2), 보(3)! <종료: 0> :", terminator: " ")
-        
-        guard let userNumber = isValidUserNumber() else {
-            print("잘못된 입력입니다.")
-            continue
-        }
-        
         if userNumber == .terminator {
             break
         } else if randomNumber == userNumber {
@@ -35,14 +27,36 @@ private func playGame() {
             print("컴퓨터: \(randomNumber)")
             print("사용자: \(userNumber)")
             print("이겼습니다!")
-            currentTurn = .user
+            return .user
         }
         else {
             print("컴퓨터: \(randomNumber)")
             print("사용자: \(userNumber)")
             print("졌습니다!")
-            currentTurn = .computer
+            return .computer
         }
+    }
+    
+    return currentTurn
+}
+
+private func playGame() {
+    
+    while true {
+        var currentTurn: PlayerTurn = .user
+        guard let randomNumber = GameElement(rawValue: Int.random(in: 1...3)) else { return }
+        print("가위(1), 바위(2), 보(3)! <종료: 0> :", terminator: " ")
+        
+        guard let userNumber = isValidUserNumber() else {
+            print("잘못된 입력입니다.")
+            continue
+        }
+        
+        if userNumber == .terminator {
+            break
+        }
+        
+        excuteRockPaperScissors(randomNumber: randomNumber, userNumber: userNumber)
         
         while true {
             print("[\(currentTurn) 턴] 묵(1), 찌(2), 빠(3)!<종료 : 0> :", terminator: " ")
